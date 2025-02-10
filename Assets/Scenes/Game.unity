@@ -159,7 +159,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -829,12 +829,52 @@ MonoBehaviour:
   upperLookLimit: 80
   lowerLookLimit: 80
   moveSpeed: 3
+  sprintMultiplier: 2.5
   gravityMultiplier: 30
   jumpHeight: 2
-  landingBounceAmount: 0.2
-  landingBounceSpeed: 0.2
+  maxStamina: 100
+  staminaDecreaseRate: 12.5
+  staminaRechargeRate: 8
+  staminaRechargeDelay: 2
+  landingBounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.51755774
+      outSlope: 0.51755774
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.39158008
+    - serializedVersion: 3
+      time: 0.50014234
+      value: 0.9998215
+      inSlope: -0.00048166513
+      outSlope: -0.00048166513
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0000635
+      value: -0.000039498977
+      inSlope: -0.5081758
+      outSlope: -0.5081758
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.40842366
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  landingBounceDuration: 0.2
+  landingBounceAmount: 0.15
   bobFrequency: 10
+  sprintingBobFrequency: 20
   bobHeight: 0.025
+  sprintBobHeight: 0.035
   PlayerControls: {fileID: -944628639613478452, guid: 2064e0608777441448c6662eaea8a1fb,
     type: 3}
 --- !u!1 &2078802423
