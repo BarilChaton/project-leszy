@@ -874,7 +874,7 @@ MonoBehaviour:
   bobFrequency: 10
   sprintingBobFrequency: 20
   bobHeight: 0.025
-  sprintBobHeight: 0.035
+  sprintBobHeight: 0.045
   PlayerControls: {fileID: -944628639613478452, guid: 2064e0608777441448c6662eaea8a1fb,
     type: 3}
 --- !u!1 &2078802423
