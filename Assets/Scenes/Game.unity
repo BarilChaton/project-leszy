@@ -437,7 +437,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 1f9d54e3e3e6fd84bb1c64a2a4bbcaa7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -591,7 +591,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 1f9d54e3e3e6fd84bb1c64a2a4bbcaa7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -630,7 +630,7 @@ Transform:
   m_GameObject: {fileID: 938837788}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.24, y: 0.58, z: 6.98}
+  m_LocalPosition: {x: 2.24, y: 0.5, z: 6.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -696,7 +696,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: ef710b15c35465e4a8a0b30e638da08e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -830,8 +830,11 @@ MonoBehaviour:
   lowerLookLimit: 80
   moveSpeed: 3
   gravityMultiplier: 30
-  bobFrequency: 8
-  bobHeight: 0.05
+  jumpHeight: 2
+  landingBounceAmount: 0.2
+  landingBounceSpeed: 0.2
+  bobFrequency: 10
+  bobHeight: 0.025
   PlayerControls: {fileID: -944628639613478452, guid: 2064e0608777441448c6662eaea8a1fb,
     type: 3}
 --- !u!1 &2078802423
@@ -895,7 +898,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 2b0669a1cb836154b82524c90b0c3d51, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

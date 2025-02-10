@@ -19,8 +19,18 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Params")]
     [SerializeField] private float moveSpeed = 3.0f;
     [SerializeField] private float gravityMultiplier = 30.0f;
+    [SerializeField] private float jumpHeight = 2.0f;
 
-    [Header("Headbobbing Params")]
+    [Header("Camera landing Bounce Params")]
+    [SerializeField] private AnimationCurve landingBounceCurve;
+    [SerializeField] private float landingBounceDuration = 0.2f;
+    [SerializeField] private float landingBounceAmount = 0.1f;
+    private float landingBounceStartTime;
+    private bool isJumping = false;
+    private bool wasGrounded = true;
+    private bool isBouncing = false;
+
+    [ Header("Headbobbing Params")]
     [SerializeField] private float bobFrequency = 1.5f;
     [SerializeField] private float bobHeight = 0.5f;
 
@@ -43,13 +53,17 @@ public class PlayerController : MonoBehaviour
 
     private InputAction moveAction;
     private InputAction lookAction;
+    private InputAction jumpAction;
 
     #endregion
 
     private void Awake() {
         playerCamera = Camera.main;
+
         moveAction = PlayerControls.FindActionMap("Player").FindAction("Movement");
         lookAction = PlayerControls.FindActionMap("Player").FindAction("Look");
+        jumpAction = PlayerControls.FindActionMap("Player").FindAction("Jump");
+
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -62,11 +76,15 @@ public class PlayerController : MonoBehaviour
 
         moveAction.Enable();
         lookAction.Enable();
+        jumpAction.Enable();
+
+        jumpAction.performed += ctx => HandleJump();
     }
 
     private void OnDisable() {
         moveAction.Disable();
         lookAction.Disable();
+        jumpAction.Disable();
     }
     private void Update() {
         if (CanMove) {
@@ -77,6 +95,12 @@ public class PlayerController : MonoBehaviour
         if (CanLook) {
             HandleMouseLook();
         }
+
+        if (!wasGrounded && characterController.isGrounded) {
+            StartLandingBounce();
+        }
+
+        wasGrounded = characterController.isGrounded;
 
         ApplyFinalMovements();
     }
@@ -100,6 +124,8 @@ public class PlayerController : MonoBehaviour
         moveDirection.y = moveDirectionY;
     }
     private void HandleHeadBobbing() {
+        float bobOffset = 0;
+
         if (characterController.velocity.magnitude > 0.1f) {
             float frequency = bobFrequency;
             timer += Time.deltaTime * frequency;
@@ -109,13 +135,42 @@ public class PlayerController : MonoBehaviour
             playerCamera.transform.localPosition = new Vector3(playerCamera.transform.localPosition.x, newYPos, playerCamera.transform.localPosition.z);
         } else {
             timer = 0;
-            playerCamera.transform.localPosition = new Vector3(playerCamera.transform.localPosition.x, defaultYPos, playerCamera.transform.localPosition.z);
         }
+
+        float bounceOffset = 0;
+        if (isBouncing) {
+            float t = (Time.time - landingBounceStartTime) / landingBounceDuration;
+            if (t >= 1) {
+                isBouncing = false;
+            } else {
+                bounceOffset = landingBounceCurve.Evaluate(t) * -landingBounceAmount;
+            }
+        }
+
+        playerCamera.transform.localPosition = new Vector3(
+            playerCamera.transform.localPosition.x,
+            defaultYPos + bobOffset + bounceOffset,
+            playerCamera.transform.localPosition.z
+        );
+    }
+
+    private void HandleJump() {
+        if (characterController.isGrounded) {
+            moveDirection.y = Mathf.Sqrt(jumpHeight * 2f * gravityMultiplier);
+            isJumping = true;
+        }
+    }
+
+    private void StartLandingBounce() {
+        landingBounceStartTime = Time.time;
+        isBouncing = true;
     }
 
     private void ApplyFinalMovements() {
         if (!characterController.isGrounded) {
             moveDirection.y -= gravityMultiplier * Time.deltaTime;
+        } else if (isJumping) {
+            isJumping = false;
         }
 
         characterController.Move(moveDirection * Time.deltaTime);
